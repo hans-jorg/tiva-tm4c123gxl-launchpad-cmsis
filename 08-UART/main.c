@@ -115,9 +115,9 @@ char str[10];
         LED_Write(LED_ALL, LED_BLUE);
         Delay(1000);
 
-        UART_SendChar('\n');
+        UART_SendChar('*');
 
-        itoa(counter,str);
+        itoa(tick,str);
         UART_SendString(str);
 
     }

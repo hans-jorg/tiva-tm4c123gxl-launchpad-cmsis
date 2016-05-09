@@ -14,7 +14,9 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/times.h>
+#include <locale.h>
 
+#include "TM4C123GH6PM.h"
 #include "uart.h"
 
 /**
@@ -39,10 +41,15 @@ int  SerialStatus(void)         { return UART_GetStatus();    }
  *
  */
 //@{
-extern char _stack_start;
+extern char _StackTop;
 extern char _end;
+extern char _bss_end;       /* Defined by the linker */
 //@}
 
+/*
+ * GetStackPointer
+ */
+static inline uint32_t GetStackPointer(void) { return __get_MSP(); }
 /**
  * @brief errno
  *
@@ -69,14 +76,19 @@ extern char _end;
 extern int errno;
 
 /**
- * @brief _init
+ * @brief _main
  *
  * @note  Initializes library.
  *        Must be called before entering main.
- *        Best place is inside _main in system_DEVICE.c.
+ *        Best place is inside _main in system_DEVICE.c or more simple, replace it
  */
 
-void _init(void) {
+void __sinit(struct _reent *reent);
+extern struct _reent *_impure_ptr;
+
+void _main(void) {
+    __sinit(_impure_ptr);
+
     SerialInit();
 }
 
@@ -275,12 +287,10 @@ int _open(const char *name, int flags, int mode) {
  * @note  Increase program data space. As malloc and related functions depend
  *        on this, it is useful to have a working implementation.
  *        The following suffices for a standalone system; it exploits the
- *        symbol _end automatically defined by the GNU linker.
+ *        symbol _heap_end defined in linker script
  */
 
 void * _sbrk(int incr) {
-extern char _bss_end;		/* Defined by the linker */
-extern char _stack_start;   /* Defined by the linker */
 static char *heap_end = 0;
 char *prev_heap_end;
 
@@ -288,7 +298,8 @@ char *prev_heap_end;
         heap_end = &_bss_end;
     }
     prev_heap_end = heap_end;
-    if (heap_end + incr > &_stack_start) {
+    // Should be present SP instead of StackTop
+    if ( (uint32_t)heap_end + incr > GetStackPointer() ) {
         abort ();
     }
 
@@ -342,3 +353,7 @@ int wait(int *status) {
     errno = ECHILD;
     return -1;
 }
+
+
+/**************************************************************************************************/
+

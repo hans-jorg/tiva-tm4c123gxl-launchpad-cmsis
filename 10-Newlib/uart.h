@@ -13,9 +13,9 @@
 #include "uart.h"
 
 void UART_Init(void);
-void UART_SendChar(char ch);
-void UART_SendString(char *p );
-void UART_SendEOL(void);
+int  UART_SendChar(char ch);
+int  UART_SendString(char *p );
+int  UART_SendEOL(void);
 
 int  UART_ReceiveChar(void);
 int  UART_GetStatus(void);
