@@ -1,9 +1,9 @@
 # tiva-tm4c123gxl-launchpad-cmsis
 Examples for Tiva TM4C123GXL Launchpad (Step-by-Step)
 
-<h2>A Step-by-Step introduction to software development for TM4C123GXL Launchpad Using GNU C and Linux</h2>
+<h2>Software Development for TM4C123GXL Launchpad Using GNU C and Linux</h2>
 <p>
-
+A Step-by-Step Introduction to Embedded Systems.
 
 <ul>
 <li>Example 1 – Very simple blinker
