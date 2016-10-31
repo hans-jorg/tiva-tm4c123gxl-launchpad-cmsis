@@ -2,7 +2,7 @@
 #  @file     Makefile
 #  @brief    General makefile for TM4C123
 #  @version  V1.0
-#  @date     07/05/2016
+#  @date     31/10/2016
 #
 #  @note     CMSIS library used
 #
@@ -65,13 +65,13 @@ CMSISDIR=../../CMSIS
 #
 #default: usage
 default: help
-default: build
+#default: build
 
 #
 # Verbose output for Make (Coment to have verbose output)
 #
 #MAKEFLAGS+= --silent --no-print-directory
-.SILENT:
+#.SILENT:
 
 #
 # Folder for object files
@@ -289,6 +289,8 @@ GUIEDITOR=gedit
 # Location of additional libraries
 #
 
+# Protothreads Directory
+#
 PTDIR=../../../../pt-1.4
 
 ###############################################################################
@@ -654,7 +656,7 @@ ddd: $(OBJDIR)/$(PROGNAME).axf $(GDBINIT)
 # Debug using nemiver GUI
 #
 nemiver: $(OBJDIR)/$(PROGNAME).axf $(GDBINIT)
-	nemiver  --remote=localhost:3333  --gdb-binary=`which $(GDB)`     $(OBJDIR)/$(PROGNAME).axf
+	nemiver  --remote=localhost:4242  --gdb-binary=`which $(GDB)`     $(OBJDIR)/$(PROGNAME).axf
 
 #
 # Start debug daemon (gdb proxy)

@@ -65,13 +65,12 @@ CMSISDIR=../../CMSIS
 #
 #default: usage
 default: help
-default: build
 
 #
 # Verbose output for Make (Coment to have verbose output)
 #
 #MAKEFLAGS+= --silent --no-print-directory
-.SILENT:
+#.SILENT:
 
 #
 # Folder for object files
@@ -654,7 +653,7 @@ ddd: $(OBJDIR)/$(PROGNAME).axf $(GDBINIT)
 # Debug using nemiver GUI
 #
 nemiver: $(OBJDIR)/$(PROGNAME).axf $(GDBINIT)
-	nemiver  --remote=localhost:3333  --gdb-binary=`which $(GDB)`     $(OBJDIR)/$(PROGNAME).axf
+	nemiver  --remote=localhost:4242  --gdb-binary=`which $(GDB)`     $(OBJDIR)/$(PROGNAME).axf
 
 #
 # Start debug daemon (gdb proxy)

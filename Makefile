@@ -1,18 +1,21 @@
 
+MAKEFLAGS=--no-print-directory
+.SILENT:
 
 
 default:
-	@echo "Use one of the options: all clean zip"
-	@exit 0
+	echo "Choose clean, zip or all"
+	exit 0
 
 clean:
-	@echo "Cleaning ..."
-	@for i in *; do if [ -d "$$i" ]; then echo "Cleaning $$i ..." ; rm -f $$i.zip  ; ( cd $$i;  make clean ); fi; done
+	echo "Cleaning..."
+	for i in *; do if [ -d "$$i" ]; then echo "Cleaning $$i ..." ; ( cd $$i;  make clean ); fi; done
+	rm -rf *.zip
 
-zip: clean
-	@echo "Zipping ..."
-	@for i in *; do if [ -d "$$i" ]; then echo "Zipping $$i ..." ; zip -r $$i.zip $$i ; fi; done
+zip:
+	echo "Zipping..."
+	for i in *; do if [ -d "$$i" ]; then echo "Zipping $$i ..." ; zip -r $$i.zip $$i; fi; done
 
 all:
-	@echo "Building ..."
-	@for i in *; do if [ -d "$$i" ]; then echo "Building $$i ..." ; ( cd $$i;  make build ); fi; done
+	echo "Making all"
+	for i in *; do if [ -d "$$i" ]; then echo "Making $$i ..." ; cd $$i; make $(MAKEFLAGS) build; cd .. ;  fi; done

@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+extern int _write(int,char *, int);
+
 #include "TM4C123GH6PM.h"
 
 #include "tm4c123gh6pm-fields.h"
@@ -89,6 +91,15 @@ uint32_t begin = tick;
  * @param Increments a counter printing it at each cycle
  */
 
+void xputs(char *s) {
+
+    while(*s) {
+        fputc(*s,stdout);
+        s++;
+    }
+    fputc('\n',stdout);
+}
+
 int main(void) {
 uint32_t counter = 0;
 char str[10];
@@ -97,12 +108,16 @@ char str[10];
 
     SysTick_Config(SystemCoreClock/1000); // 1 ms
 
-    UART_Init();
+    UART_SendString("alo alo!\n\r");
 
-    puts("\x1B[2J\x1B[;H");
-    puts("Hello\r\n");
+    _write(1,"mais uma vez\n\r",14);
 
-    fgets(str,10,stdin);
+ // Clear
+ //   xputs("\x1B[2J\x1B[;H");
+    xputs("Hello\r\n");
+    fputs("puts!!!",stderr);
+
+   // fgets(str,10,stdin);
 
     while(1) {
 
@@ -117,9 +132,13 @@ char str[10];
         LED_Write(LED_ALL, LED_BLUE);
         Delay(1000);
 
-        UART_SendChar('\n');
+     //   UART_SendChar('+');
+        fputs("~\r\n",stdout);
+        putchar('*');
+        fputc('#',stdout);
 
-        printf("counter = %d\n",counter);
+        printf("contando .....\r\n");
+        printf("counter = %d tick = %d\r\n",counter,tick);
 
     }
     return 0;

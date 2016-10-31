@@ -6224,131 +6224,144 @@
 #define NVIC_PRI34_INTA_M           0x000000E0 // Interrupt Priority for Interrupt
 #define NVIC_PRI34_INTA_S           5          // Interrupt Priority for Interrupt
 
-/* Bit/Fields in Register CPUID of Module NVIC                                */
-#define NVIC_CPUID_IMP_M            0xFF000000 // Implementer Code
-#define NVIC_CPUID_IMP_S            24         // Implementer Code
-#define NVIC_CPUID_IMP_ARM_V        0x41000000 // ARM
-#define NVIC_CPUID_VAR_M            0x00F00000 // Variant Number
-#define NVIC_CPUID_VAR_S            20         // Variant Number
-#define NVIC_CPUID_CON_M            0x000F0000 // Constant
-#define NVIC_CPUID_CON_S            16         // Constant
-#define NVIC_CPUID_PARTNO_M         0x0000FFF0 // Part Number
-#define NVIC_CPUID_PARTNO_S         4          // Part Number
-#define NVIC_CPUID_PARTNO_CM4_V     0x0000C240 // Cortex-M4 processor
-#define NVIC_CPUID_REV_M            0x0000000F // Revision Number
-#define NVIC_CPUID_REV_S            0          // Revision Number
+/* Bit/Fields in Register SWTRIG of Module NVIC                               */
+#define NVIC_SWTRIG_INTID_M         0x000000FF // Implementer Code
+#define NVIC_SWTRIG_INTID_S         0
 
-/* Bit/Fields in Register INT of Module NVIC                                  */
-#define NVIC_INT_CTRL_NMI_SET_B     0x80000000 // NMI Set Pending
-#define NVIC_INT_CTRL_PEND_SV_B     0x10000000 // PendSV Set Pending
-#define NVIC_INT_CTRL_UNPEND_SV_B   0x08000000 // PendSV Clear Pending
-#define NVIC_INT_CTRL_PENDSTSET_B   0x04000000 // SysTick Set Pending
-#define NVIC_INT_CTRL_PENDSTCLR_B   0x02000000 // SysTick Clear Pending
-#define NVIC_INT_CTRL_ISR_PRE_B     0x00800000 // Debug Interrupt Handling
-#define NVIC_INT_CTRL_ISR_PEND_B    0x00400000 // Interrupt Pending
-#define NVIC_INT_CTRL_VEC_PEN_M     0x000FF000 // Interrupt Pending Vector Number
-#define NVIC_INT_CTRL_VEC_PEN_S     12         // Interrupt Pending Vector Number
-#define NVIC_INT_CTRL_RET_BASE_B    0x00000800 // Return to Base
-#define NVIC_INT_CTRL_VEC_ACT_M     0x000000FF // Interrupt Pending Vector Number
-#define NVIC_INT_CTRL_VEC_ACT_S     0          // Interrupt Pending Vector Number
 
-/* Bit/Fields in Register VTABLE of Module NVIC                               */
-#define NVIC_VTABLE_OFFSET_M        0xFFFFFC00 // Vector Table Offset
-#define NVIC_VTABLE_OFFSET_S        10         // Vector Table Offset
 
-/* Bit/Fields in Register APINT of Module NVIC                                */
-#define NVIC_APINT_VECTKEY_M        0xFFFF0000 // Register Key
-#define NVIC_APINT_VECTKEY_S        16         // Register Key
-#define NVIC_APINT_VECTKEY_V        0x05FA0000 // Vector key
-#define NVIC_APINT_ENDIANESS_B      0x00008000 // Data Endianess
-#define NVIC_APINT_PRIGROUP_M       0x00000700 // Interrupt Priority Grouping
-#define NVIC_APINT_PRIGROUP_S       8          // Interrupt Priority Grouping
-#define NVIC_APINT_PRIGROUP_7_1_V   0x00000000 // Priority group 7.1 split
-#define NVIC_APINT_PRIGROUP_6_2_V   0x00000100 // Priority group 6.2 split
-#define NVIC_APINT_PRIGROUP_5_3_V   0x00000200 // Priority group 5.3 split
-#define NVIC_APINT_PRIGROUP_4_4_V   0x00000300 // Priority group 4.4 split
-#define NVIC_APINT_PRIGROUP_3_5_V   0x00000400 // Priority group 3.5 split
-#define NVIC_APINT_PRIGROUP_2_6_V   0x00000500 // Priority group 2.6 split
-#define NVIC_APINT_PRIGROUP_1_7_V   0x00000600 // Priority group 1.7 split
-#define NVIC_APINT_PRIGROUP_0_8_V   0x00000700 // Priority group 0.8 split
-#define NVIC_APINT_SYSRESETREQ_B    0x00000004 // System Reset Request
-#define NVIC_APINT_VECT_CLR_ACT_B   0x00000002 // Clear Active NMI / Fault
-#define NVIC_APINT_VECT_RESET_B     0x00000001 // System Reset
+//
+// SCB
+//
 
-/* Bit/Fields in Register SYS of Module NVIC                                  */
-#define NVIC_SYS_CTRL_SEVONPEND_B   0x00000010 // Wake Up on Pending
-#define NVIC_SYS_CTRL_SLEEPDEEP_B   0x00000004 // Deep Sleep Enable
-#define NVIC_SYS_CTRL_SLEEPEXIT_B   0x00000002 // Sleep on ISR Exit
+/* Bit/Fields in Register CPUID of Module SCB                                 */
+#define SCB_CPUID_IMP_M            0xFF000000 // Implementer Code
+#define SCB_CPUID_IMP_S            24         // Implementer Code
+#define SCB_CPUID_IMP_ARM_V        0x41000000 // ARM
+#define SCB_CPUID_VAR_M            0x00F00000 // Variant Number
+#define SCB_CPUID_VAR_S            20         // Variant Number
+#define SCB_CPUID_CON_M            0x000F0000 // Constant
+#define SCB_CPUID_CON_S            16         // Constant
+#define SCB_CPUID_PARTNO_M         0x0000FFF0 // Part Number
+#define SCB_CPUID_PARTNO_S         4          // Part Number
+#define SCB_CPUID_PARTNO_CM4_V     0x0000C240 // Cortex-M4 processor
+#define SCB_CPUID_REV_M            0x0000000F // Revision Number
+#define SCB_CPUID_REV_S            0          // Revision Number
 
-/* Bit/Fields in Register CFG of Module NVIC                                  */
-#define NVIC_CFG_CTRL_STKALIGN_B    0x00000200 // Stack Alignment on Exception
-#define NVIC_CFG_CTRL_BFHFNMIGN_B   0x00000100 // Ignore Bus Fault in NMI and
-#define NVIC_CFG_CTRL_DIV0_B        0x00000010 // Trap on Divide by 0
-#define NVIC_CFG_CTRL_UNALIGNED_B   0x00000008 // Trap on Unaligned Access
-#define NVIC_CFG_CTRL_MAIN_PEND_B   0x00000002 // Allow Main Interrupt Trigger
-#define NVIC_CFG_CTRL_BASE_THR_B    0x00000001 // Thread State Control
 
-/* Bit/Fields in Register SYS of Module NVIC                                  */
-#define NVIC_SYS_PRI1_USAGE_M       0x00E00000 // Usage Fault Priority
-#define NVIC_SYS_PRI1_USAGE_S       21         // Usage Fault Priority
-#define NVIC_SYS_PRI1_BUS_M         0x0000E000 // Bus Fault Priority
-#define NVIC_SYS_PRI1_BUS_S         13         // Bus Fault Priority
-#define NVIC_SYS_PRI1_MEM_M         0x000000E0 // Memory Management Fault Priority
-#define NVIC_SYS_PRI1_MEM_S         5          // Memory Management Fault Priority
-#define NVIC_SYS_PRI2_SVC_M         0xE0000000 // SVCall Priority
-#define NVIC_SYS_PRI2_SVC_S         29         // SVCall Priority
-#define NVIC_SYS_PRI3_TICK_M        0xE0000000 // SysTick Exception Priority
-#define NVIC_SYS_PRI3_TICK_S        29         // SysTick Exception Priority
-#define NVIC_SYS_PRI3_PENDSV_M      0x00E00000 // PendSV Priority
-#define NVIC_SYS_PRI3_PENDSV_S      21         // PendSV Priority
-#define NVIC_SYS_PRI3_DEBUG_M       0x000000E0 // Debug Priority
-#define NVIC_SYS_PRI3_DEBUG_S       5          // Debug Priority
-#define NVIC_SYS_HND_CTRL_USAGE_B   0x00040000 // Usage Fault Enable
-#define NVIC_SYS_HND_CTRL_BUS_B     0x00020000 // Bus Fault Enable
-#define NVIC_SYS_HND_CTRL_MEM_B     0x00010000 // Memory Management Fault Enable
-#define NVIC_SYS_HND_CTRL_SVC_B     0x00008000 // SVC Call Pending
-#define NVIC_SYS_HND_CTRL_BUSP_B    0x00004000 // Bus Fault Pending
-#define NVIC_SYS_HND_CTRL_MEMP_B    0x00002000 // Memory Management Fault Pending
-#define NVIC_SYS_HND_CTRL_TICK_B    0x00000800 // SysTick Exception Active
-#define NVIC_SYS_HND_CTRL_PNDSV_B   0x00000400 // PendSV Exception Active
-#define NVIC_SYS_HND_CTRL_MON_B     0x00000100 // Debug Monitor Active
-#define NVIC_SYS_HND_CTRL_SVCA_B    0x00000080 // SVC Call Active
-#define NVIC_SYS_HND_CTRL_USGA_B    0x00000008 // Usage Fault Active
-#define NVIC_SYS_HND_CTRL_BUSA_B    0x00000002 // Bus Fault Active
-#define NVIC_SYS_HND_CTRL_MEMA_B    0x00000001 // Memory Management Fault Active
 
-/* Bit/Fields in Register FAULT of Module NVIC                                */
-#define NVIC_FAULT_STAT_DIV0_B      0x02000000 // Divide-by-Zero Usage Fault
-#define NVIC_FAULT_STAT_UNALIGN_B   0x01000000 // Unaligned Access Usage Fault
-#define NVIC_FAULT_STAT_NOCP_B      0x00080000 // No Coprocessor Usage Fault
-#define NVIC_FAULT_STAT_INVPC_B     0x00040000 // Invalid PC Load Usage Fault
-#define NVIC_FAULT_STAT_INVSTAT_B   0x00020000 // Invalid State Usage Fault
-#define NVIC_FAULT_STAT_UNDEF_B     0x00010000 // Undefined Instruction Usage
-#define NVIC_FAULT_STAT_BFARV_B     0x00008000 // Bus Fault Address Register Valid
-#define NVIC_FAULT_STAT_BLSPERR_B   0x00002000 // Bus Fault on Floating-Point Lazy
-#define NVIC_FAULT_STAT_BSTKE_B     0x00001000 // Stack Bus Fault
-#define NVIC_FAULT_STAT_BUSTKE_B    0x00000800 // Unstack Bus Fault
-#define NVIC_FAULT_STAT_IMPRE_B     0x00000400 // Imprecise Data Bus Error
-#define NVIC_FAULT_STAT_PRECISE_B   0x00000200 // Precise Data Bus Error
-#define NVIC_FAULT_STAT_IBUS_B      0x00000100 // Instruction Bus Error
-#define NVIC_FAULT_STAT_MMARV_B     0x00000080 // Memory Management Fault Address
-#define NVIC_FAULT_STAT_MLSPERR_B   0x00000020 // Memory Management Fault on
-#define NVIC_FAULT_STAT_MSTKE_B     0x00000010 // Stack Access Violation
-#define NVIC_FAULT_STAT_MUSTKE_B    0x00000008 // Unstack Access Violation
-#define NVIC_FAULT_STAT_DERR_B      0x00000002 // Data Access Violation
-#define NVIC_FAULT_STAT_IERR_B      0x00000001 // Instruction Access Violation
+
+/* Bit/Fields in Register ICSR of Module SCB                                  */
+#define SCB_INT_ICSR_NMI_SET_B     0x80000000 // NMI Set Pending
+#define SCB_INT_ICSR_PEND_SV_B     0x10000000 // PendSV Set Pending
+#define SCB_INT_ICSR_UNPEND_SV_B   0x08000000 // PendSV Clear Pending
+#define SCB_INT_ICSR_PENDSTSET_B   0x04000000 // SysTick Set Pending
+#define SCB_INT_ICSR_PENDSTCLR_B   0x02000000 // SysTick Clear Pending
+#define SCB_INT_ICSR_ISR_PRE_B     0x00800000 // Debug Interrupt Handling
+#define SCB_INT_ICSR_ISR_PEND_B    0x00400000 // Interrupt Pending
+#define SCB_INT_ICSR_VEC_PEN_M     0x000FF000 // Interrupt Pending Vector Number
+#define SCB_INT_ICSR_VEC_PEN_S     12         // Interrupt Pending Vector Number
+#define SCB_INT_ICSR_RET_BASE_B    0x00000800 // Return to Base
+#define SCB_INT_ICSR_VEC_ACT_M     0x000000FF // Interrupt Pending Vector Number
+#define SCB_INT_ICSR_VEC_ACT_S     0          // Interrupt Pending Vector Number
+
+/* Bit/Fields in Register VTABLE of Module SCB                               */
+#define SCB_VTABLE_OFFSET_M        0xFFFFFC00 // Vector Table Offset
+#define SCB_VTABLE_OFFSET_S        10         // Vector Table Offset
+
+/* Bit/Fields in Register AIRCR of Module SCB                                */
+#define SCB_AIRCR_VECTKEY_M        0xFFFF0000 // Register Key
+#define SCB_AIRCR_VECTKEY_S        16         // Register Key
+#define SCB_AIRCR_VECTKEY_V        0x05FA0000 // Vector key
+#define SCB_AIRCR_ENDIANESS_B      0x00008000 // Data Endianess
+#define SCB_AIRCR_PRIGROUP_M       0x00000700 // Interrupt Priority Grouping
+#define SCB_AIRCR_PRIGROUP_S       8          // Interrupt Priority Grouping
+#define SCB_AIRCR_PRIGROUP_7_1_V   0x00000000 // Priority group 7.1 split
+#define SCB_AIRCR_PRIGROUP_6_2_V   0x00000100 // Priority group 6.2 split
+#define SCB_AIRCR_PRIGROUP_5_3_V   0x00000200 // Priority group 5.3 split
+#define SCB_AIRCR_PRIGROUP_4_4_V   0x00000300 // Priority group 4.4 split
+#define SCB_AIRCR_PRIGROUP_3_5_V   0x00000400 // Priority group 3.5 split
+#define SCB_AIRCR_PRIGROUP_2_6_V   0x00000500 // Priority group 2.6 split
+#define SCB_AIRCR_PRIGROUP_1_7_V   0x00000600 // Priority group 1.7 split
+#define SCB_AIRCR_PRIGROUP_0_8_V   0x00000700 // Priority group 0.8 split
+#define SCB_AIRCR_SYSRESETREQ_B    0x00000004 // System Reset Request
+#define SCB_AIRCR_VECT_CLR_ACT_B   0x00000002 // Clear Active NMI / Fault
+#define SCB_AIRCR_VECT_RESET_B     0x00000001 // System Reset
+
+/* Bit/Fields in Register SYSCTRL of Module NVIC                                  */
+#define SCB_SCR_SEVONPEND_B   0x00000010 // Wake Up on Pending
+#define SCB_SCR_SLEEPDEEP_B   0x00000004 // Deep Sleep Enable
+#define SCB_SCR_SLEEPEXIT_B   0x00000002 // Sleep on ISR Exit
+
+/* Bit/Fields in Register CFGCTRL of Module NVIC                                  */
+#define SCB_CCR_CTRL_STKALIGN_B    0x00000200 // Stack Alignment on Exception
+#define SCB_CCR_CTRL_BFHFNMIGN_B   0x00000100 // Ignore Bus Fault in NMI and
+#define SCB_CCR_CTRL_DIV0_B        0x00000010 // Trap on Divide by 0
+#define SCB_CCR_CTRL_UNALIGNED_B   0x00000008 // Trap on Unaligned Access
+#define SCB_CCR_CTRL_MAIN_PEND_B   0x00000002 // Allow Main Interrupt Trigger
+#define SCB_CCR_CTRL_BASE_THR_B    0x00000001 // Thread State Control
+
+/* Bit/Fields in Register SYS of Module SCB                                  */
+#define SCB_SHP_PRI1_USAGE_M       0x00E00000 // Usage Fault Priority
+#define SCB_SHP_PRI1_USAGE_S       21         // Usage Fault Priority
+#define SCB_SHP_PRI1_BUS_M         0x0000E000 // Bus Fault Priority
+#define SCB_SHP_PRI1_BUS_S         13         // Bus Fault Priority
+#define SCB_SHP_PRI1_MEM_M         0x000000E0 // Memory Management Fault Priority
+#define SCB_SHP_PRI1_MEM_S         5          // Memory Management Fault Priority
+#define SCB_SHP_PRI2_SVC_M         0xE0000000 // SVCall Priority
+#define SCB_SHP_PRI2_SVC_S         29         // SVCall Priority
+#define SCB_SHP_PRI3_TICK_M        0xE0000000 // SysTick Exception Priority
+#define SCB_SHP_PRI3_TICK_S        29         // SysTick Exception Priority
+#define SCB_SHP_PRI3_PENDSV_M      0x00E00000 // PendSV Priority
+#define SCB_SHP_PRI3_PENDSV_S      21         // PendSV Priority
+#define SCB_SHP_PRI3_DEBUG_M       0x000000E0 // Debug Priority
+#define SCB_SHP_PRI3_DEBUG_S       5          // Debug Priority
+#define SCB_SHP_HND_CTRL_USAGE_B   0x00040000 // Usage Fault Enable
+#define SCB_SHP_HND_CTRL_BUS_B     0x00020000 // Bus Fault Enable
+#define SCB_SHP_HND_CTRL_MEM_B     0x00010000 // Memory Management Fault Enable
+#define SCB_SHP_HND_CTRL_SVC_B     0x00008000 // SVC Call Pending
+#define SCB_SHP_HND_CTRL_BUSP_B    0x00004000 // Bus Fault Pending
+#define SCB_SHP_HND_CTRL_MEMP_B    0x00002000 // Memory Management Fault Pending
+#define SCB_SHP_HND_CTRL_TICK_B    0x00000800 // SysTick Exception Active
+#define SCB_SHP_HND_CTRL_PNDSV_B   0x00000400 // PendSV Exception Active
+#define SCB_SHP_HND_CTRL_MON_B     0x00000100 // Debug Monitor Active
+#define SCB_SHP_HND_CTRL_SVCA_B    0x00000080 // SVC Call Active
+#define SCB_SHP_HND_CTRL_USGA_B    0x00000008 // Usage Fault Active
+#define SCB_SHP_HND_CTRL_BUSA_B    0x00000002 // Bus Fault Active
+#define SCB_SHP_HND_CTRL_MEMA_B    0x00000001 // Memory Management Fault Active
+
+/* Bit/Fields in Register FAULT of Module SCB                                */
+#define SCB_CFSR_STAT_DIV0_B      0x02000000 // Divide-by-Zero Usage Fault
+#define SCB_CFSR_STAT_UNALIGN_B   0x01000000 // Unaligned Access Usage Fault
+#define SCB_CFSR_STAT_NOCP_B      0x00080000 // No Coprocessor Usage Fault
+#define SCB_CFSR_STAT_INVPC_B     0x00040000 // Invalid PC Load Usage Fault
+#define SCB_CFSR_STAT_INVSTAT_B   0x00020000 // Invalid State Usage Fault
+#define SCB_CFSR_STAT_UNDEF_B     0x00010000 // Undefined Instruction Usage
+#define SCB_CFSR_STAT_BFARV_B     0x00008000 // Bus Fault Address Register Valid
+#define SCB_CFSR_STAT_BLSPERR_B   0x00002000 // Bus Fault on Floating-Point Lazy
+#define SCB_CFSR_STAT_BSTKE_B     0x00001000 // Stack Bus Fault
+#define SCB_CFSR_STAT_BUSTKE_B    0x00000800 // Unstack Bus Fault
+#define SCB_CFSR_STAT_IMPRE_B     0x00000400 // Imprecise Data Bus Error
+#define SCB_CFSR_STAT_PRECISE_B   0x00000200 // Precise Data Bus Error
+#define SCB_CFSR_STAT_IBUS_B      0x00000100 // Instruction Bus Error
+#define SCB_CFSR_STAT_MMARV_B     0x00000080 // Memory Management Fault Address
+#define SCB_CFSR_STAT_MLSPERR_B   0x00000020 // Memory Management Fault on
+#define SCB_CFSR_STAT_MSTKE_B     0x00000010 // Stack Access Violation
+#define SCB_CFSR_STAT_MUSTKE_B    0x00000008 // Unstack Access Violation
+#define SCB_CFSR_STAT_DERR_B      0x00000002 // Data Access Violation
+#define SCB_CFSR_STAT_IERR_B      0x00000001 // Instruction Access Violation
 
 /* Bit/Fields in Register HFAULT of Module NVIC                               */
-#define NVIC_HFAULT_STAT_DBG_B      0x80000000 // Debug Event
-#define NVIC_HFAULT_STAT_FORCED_B   0x40000000 // Forced Hard Fault
-#define NVIC_HFAULT_STAT_VECT_B     0x00000002 // Vector Table Read Fault
+#define SCB_HFSR_STAT_DBG_B      0x80000000 // Debug Event
+#define SCB_HFSR_STAT_FORCED_B   0x40000000 // Forced Hard Fault
+#define SCB_HFSR_STAT_VECT_B     0x00000002 // Vector Table Read Fault
 
 /* Bit/Fields in Register DEBUG of Module NVIC                                */
-#define NVIC_DEBUG_STAT_EXTRNL_B    0x00000010 // EDBGRQ asserted
-#define NVIC_DEBUG_STAT_VCATCH_B    0x00000008 // Vector catch
-#define NVIC_DEBUG_STAT_DWTTRAP_B   0x00000004 // DWT match
-#define NVIC_DEBUG_STAT_BKPT_B      0x00000002 // Breakpoint instruction
-#define NVIC_DEBUG_STAT_HALTED_B    0x00000001 // Halt request
+#define SCB_DFSR_STAT_EXTRNL_B    0x00000010 // EDBGRQ asserted
+#define SCB_DFSR_STAT_VCATCH_B    0x00000008 // Vector catch
+#define SCB_DFSR_STAT_DWTTRAP_B   0x00000004 // DWT match
+#define SCB_DFSR_STAT_BKPT_B      0x00000002 // Breakpoint instruction
+#define SCB_DFSR_STAT_HALTED_B    0x00000001 // Halt request
 
 /* Bit/Fields in Register MM of Module NVIC                                   */
 #define NVIC_MM_ADDR_M              0xFFFFFFFF // Fault Address
@@ -6359,16 +6372,16 @@
 #define NVIC_FAULT_ADDR_S           0          // Fault Address
 
 /* Bit/Fields in Register CPAC of Module NVIC                                 */
-#define NVIC_CPAC_CP11_M            0x00C00000 // CP11 Coprocessor Access
-#define NVIC_CPAC_CP11_S            22         // CP11 Coprocessor Access
-#define NVIC_CPAC_CP11_DIS_V        0x00000000 // Access Denied
-#define NVIC_CPAC_CP11_PRIV_V       0x00400000 // Privileged Access Only
-#define NVIC_CPAC_CP11_FULL_V       0x00C00000 // Full Access
-#define NVIC_CPAC_CP10_M            0x00300000 // CP10 Coprocessor Access
-#define NVIC_CPAC_CP10_S            20         // CP10 Coprocessor Access
-#define NVIC_CPAC_CP10_DIS_V        0x00000000 // Access Denied
-#define NVIC_CPAC_CP10_PRIV_V       0x00100000 // Privileged Access Only
-#define NVIC_CPAC_CP10_FULL_V       0x00300000 // Full Access
+#define SCB_CPACR_CP11_M             0x00C00000 // CP11 Coprocessor Access
+#define SCB_CPACR_CP11_S             22         // CP11 Coprocessor Access
+#define SCB_CPACR_CP11_DIS_V         0x00000000 // Access Denied
+#define SCB_CPACR_CP11_PRIV_V        0x00400000 // Privileged Access Only
+#define SCB_CPACR_CP11_FULL_V        0x00C00000 // Full Access
+#define SCB_CPACR_CP10_M             0x00300000 // CP10 Coprocessor Access
+#define SCB_CPACR_CP10_S             20         // CP10 Coprocessor Access
+#define SCB_CPACR_CP10_DIS_V         0x00000000 // Access Denied
+#define SCB_CPACR_CP10_PRIV_V        0x00100000 // Privileged Access Only
+#define SCB_CPACR_CP10_FULL_V        0x00300000 // Full Access
 
 /* Bit/Fields in Register MPU of Module NVIC                                  */
 #define NVIC_MPU_TYPE_IREGION_M     0x00FF0000 // Number of I Regions

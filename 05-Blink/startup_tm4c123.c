@@ -11,6 +11,8 @@
  *
  **/
 
+#include "TM4C123GH6PM.h"
+#include "tm4c123gh6pm-fields.h"
 
 /* main : codigo do usuario */
 extern void main(void);
@@ -114,9 +116,9 @@ extern unsigned long _data_start;
 extern unsigned long _data_end;
 extern unsigned long _bss_start;
 extern unsigned long _bss_end;
-extern unsigned long _stack_start;
+extern unsigned long _StackLimit;
 //extern unsigned long _stack_end;
-extern void(_stack_end)(void);
+extern void(_StackTop)(void);
 
 /*
  * Tabela de excecoes/interrupcoes
@@ -128,18 +130,18 @@ extern void(_stack_end)(void);
 
 __attribute__ ((weak,section(".nvictable")))
 void(*nvictable[])(void) = {
-    _stack_end, /* 0 = SP = endereco de stack_top */
+    _StackTop,             /* 0 = SP = endereco de stack_top */
     Reset_Handler,			/* 1 = PC = endereco execucao     */
     NMI_Handler,			/* 2 = NMI Handler Exception      */
     HardFault_Handler,		/* 3 = Hard Fault Exception       */
-#if __CORTEX_M == 0x03 && __CORTEX_M == 0x04
-    0,                      /* 4 = reserved                   */
-    0,                      /* 5 = reserved                   */
-    0,                      /* 6 = reserved                   */
-#else
+#if __CORTEX_M == 0x03 || __CORTEX_M == 0x04
     MemManage_Handler,      /* 4 = Memory Management Exception*/
     BusFault_Handler,       /* 5 = Bus Fault Exception        */
     UsageFault_Handler,     /* 6 = Usage Fault Exception      */
+#else
+    0,                      /* 4 = reserved                   */
+    0,                      /* 5 = reserved                   */
+    0,                      /* 6 = reserved                   */
 #endif
     0,                      /* 7 = reserved                   */
     0,                      /* 8 = reserved                   */
@@ -301,7 +303,10 @@ void(*nvictable[])(void) = {
  * Default Interrupt Handler (Halts)
  */
 
+static uint32_t intmask;
 void Default_Handler(void) {
+
+    intmask = *((uint32_t *) (SCB_BASE+0xD04));
     while(1) {} /* Loop */
     /* NEVER */
 }
@@ -352,6 +357,19 @@ unsigned long *pDest;
         *pDest++ = 0;
     }
 
+#ifdef ENABLE_FPU
+    //
+    // Enable the floating-point unit.  This must be done here to handle the
+    // case where main() uses floating-point and the function prologue saves
+    // floating-point registers (which will fault if floating-point is not
+    // enabled).
+
+    //
+    uint32_t t = SCB->CPACR;
+    t &= ~(SCB_CPACR_CP11_M|SCB_CPACR_CP10_M);
+    t |= SCB_CPACR_CP11_FULL_V|SCB_CPACR_CP10_FULL_V ;
+    SCB->CPACR = t;
+#endif
     /* Passo 3 : Chamar SystemInit conforme CMSIS */
     SystemInit();
 

@@ -1,7 +1,9 @@
 # tiva-tm4c123gxl-launchpad-cmsis
 Examples for Tiva TM4C123GXL Launchpad (Step-by-Step)
 
-<h2>A Step-by-Step introduction to software developmento for a embedded system</h2>
+<h2>Software Development for TM4C123GXL Launchpad Using GNU C and Linux</h2>
+<p>
+A Step-by-Step Introduction to Embedded Systems.
 
 <ul>
 <li>Example 1 – Very simple blinker
@@ -22,5 +24,5 @@ Examples for Tiva TM4C123GXL Launchpad (Step-by-Step)
 <li>Example 16 – Using a time triggered approach
 <li>Example 17 – Using protothreads
 <li>Example 18 – Using Super Simple Tasker (SST)
-<li>Example 19 – Usisng FreeRTOS
+<li>Example 19 – Using FreeRTOS
 </ul>
