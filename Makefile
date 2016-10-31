@@ -15,4 +15,4 @@ zip: clean
 
 all:
 	@echo "Building ..."
-	@for i in *; do if [ -d "$$i" ]; then echo "Building $$i ..." ; ( cd $$i;  make ); fi; done
+	@for i in *; do if [ -d "$$i" ]; then echo "Building $$i ..." ; ( cd $$i;  make build ); fi; done

@@ -14,7 +14,7 @@
 GPIOA_Type *GPIO_Init(uint32_t gpiobaseaddr,uint32_t inputbits, uint32_t outputbits);
 
 #ifdef INLINE_WORKAROUND
-#define GPIO_WritePort(GPIO,ZEROES,ONES) do { (GPIO)->DATA = (gpio->DATA&(~ZEROES))|ONES;  } while(0);
+#define GPIO_WritePort(GPIO,ZEROES,ONES) do { (GPIO)->DATA = (gpio->DATA&(~ZEROES))|ONES;  } while(0)
 #else
 static inline void
 GPIO_WritePort(GPIOA_Type *gpio, uint32_t zeroes, uint32_t ones) {
