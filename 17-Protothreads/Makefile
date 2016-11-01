@@ -71,7 +71,7 @@ default: help
 # Verbose output for Make (Coment to have verbose output)
 #
 #MAKEFLAGS+= --silent --no-print-directory
-#.SILENT:
+.SILENT:
 
 #
 # Folder for object files

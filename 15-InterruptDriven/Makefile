@@ -2,7 +2,7 @@
 #  @file     Makefile
 #  @brief    General makefile for TM4C123
 #  @version  V1.0
-#  @date     07/05/2016
+#  @date     31/10/2016
 #
 #  @note     CMSIS library used
 #
@@ -70,7 +70,7 @@ default: help
 # Verbose output for Make (Coment to have verbose output)
 #
 #MAKEFLAGS+= --silent --no-print-directory
-#.SILENT:
+.SILENT:
 
 #
 # Folder for object files
