@@ -133,31 +133,70 @@ GPIOA_Type *gpio;
 }
 
 /**
+ * @brief global variables for interrupt routines
+ */
+static void (*gpiocallback)(uint32_t) = 0;      // routine to be called when interrupt occurs
+static uint32_t gpiointpins = 0;                // pins enabled to interrupt
+
+/**
  * @brief Enable interrupts from specified pins
  */
-static void (*gpiocallback)(uint32_t) = 0;
-static uint32_t intpins = 0;
-
-uint32_t
+void
 GPIO_EnableInterrupt(uint32_t pins, void (*callback)(uint32_t) ) {
 GPIOA_Type *gpio;
+
+    // Enable Interrupt from GPIO Port F
+    NVIC_DisableIRQ (GPIOF_IRQn);
 
 #ifdef USE_AHB
     gpio = GPIOF_AHB;
 #else
     gpio = GPIOF;
 #endif
-    gpio->IM = pins;
-    intpins  = pins;
+
+    if( (pins&1)!=0 ) {
+        gpio->LOCK = 0x4C4F434B;                // unlock to set PF0 (ASCII=LOCB)
+        *(uint32_t * )(&(gpio->CR)) = 0x1;      // Conversion is needed because
+                                                // CR is marked read-only
+    }
+
+
+    gpio->IM = 0;                   // Disable interrupts for this port
+
+    gpio->DEN |= pins;              // Set pins to digital I/O
+    gpio->DIR &= ~pins;              // Set pins as input
+    gpio->PUR |= pins;              // Enable Pull up
+
+    gpio->IS  &= ~pins;             // Edge interrupt
+    gpio->IBE |= pins;              // Enable for both edges
+    gpio->IEV |= pins;              // Which kind of event
+
+    gpio->ICR |= pins;              // Clear interrupts
+
+    gpiointpins  = pins;
     gpiocallback = callback;
+
+
+    if( (pins&1)!=0 ) {
+        gpio->LOCK = 0x0;                       // Lock again
+        *(uint32_t * )(&(gpio->CR)) = 0x0;      // Conversion is needed because
+                                                // CR is marked read-only
+    }
+
+
+    // Enable interrupt
+    gpio->IM = pins;
+
+    // Enable Interrupt from GPIO Port F
+    NVIC_EnableIRQ (GPIOF_IRQn);
 }
+//@}
 
 /**
  * @brief Interrupt Routine for GPIO Port F
  */
-//@{
-uint32_t ints = 0;
 
+//@{
 void GPIOF_IRQHandler(void)  {
 GPIOA_Type *gpio;
 uint32_t m;
@@ -168,10 +207,15 @@ uint32_t m;
     gpio = GPIOF;
 #endif
 
+    // Clear interrupt.
+    // Must be at the very beginning
+    gpio->ICR = gpiointpins;
+
     m = gpio->RIS;
-    gpio->ICR = intpins;
 
     if( gpiocallback ) gpiocallback(m);
+
+
 
 }
 //@}

@@ -23,6 +23,19 @@
 #define BIT(N) (1U<<(N))
 
 /**
+ * PORTA..G configured by using bit 0..6
+ */
+//@{
+#define BITPORTA        BIT(0)
+#define BITPORTB        BIT(1)
+#define BITPORTC        BIT(2)
+#define BITPORTD        BIT(3)
+#define BITPORTE        BIT(4)
+#define BITPORTF        BIT(5)
+#define BITPORTG        BIT(6)
+//@}
+
+/**
  * LEDs are in PortF(3:1)
  */
 //@{
@@ -91,15 +104,26 @@ uint32_t tbegin = tick;
 }
 
 /**
- * @brief xdelay
+ * @brief udelay
  *
- * @note  It gives a very small delay
+ * @note  It gives a precise delay
  * @note  Units are given by the period of SysTick clock
  */
-void xdelay(uint32_t delay) {
+void udelay(uint32_t delay) {
 uint32_t tbegin = SysTick->VAL;
 
     while( ((SysTick->VAL-tbegin)&0xFFFFFF)<delay ) {}
+
+}
+
+/**
+ * @brief xdelay
+ *
+ * @note  It gives a very small delay
+ */
+void xdelay(volatile uint32_t delay) {
+
+    while( delay-- ) {}
 
 }
 
@@ -128,20 +152,29 @@ GPIOA_Type *gpio;
 
     /* Enable clock for Port F         */
     SYSCTL->RCGCGPIO  |= BIT(5);
+    xdelay(10);
 
-    /* To modify PF0, it is necessary to unlock it. See 10.1 of Datasheet */
+
+    /*
+     * To modify PF0, it is necessary to unlock it because it can be used as NMI
+     * See Datasheet: Observation at 10.1 and Commit control in 10.2.4
+     */
+
     if( (inputs|outputs)&1 ) {
-        gpio->LOCK = 0x4C4F434B;                // unlock to set PF0
-        *(uint32_t * )(&(gpio->CR))   = 0x0;    // CR is marked read-only
+        gpio->LOCK = 0x4C4F434B;                // Unlock to set PF0 = ASCII('LOCB')
+        *(uint32_t * )(&(gpio->CR)) = 1;        // CR is marked read-only
     }
 
     /* Pins for led are digital output */
-    gpio->DIR    = outputs;         /* Only specified bits are outputs */
-    gpio->DEN    = inputs|outputs;  /* All pins are digital I/O        */
+    gpio->DIR    = outputs;                     // Only specified bits are outputs
+    gpio->DEN    = inputs|outputs;              // All pins are digital I/O
+    gpio->PUR    = inputs;                      // Set pull up for inputs
+
+
 
     xdelay(10);
     if( (inputs|outputs)&1 ) {
-        gpio->LOCK = 0x0;                       // lock again
+        gpio->LOCK = 0x0;                       // Lock again
         *(uint32_t * )(&(gpio->CR))   = 0x0;    // CR is marked read-only
     }
 
@@ -195,31 +228,69 @@ GPIOA_Type *gpio;
 }
 
 /**
+ * @brief global variables for interrupt routines
+ */
+static void (*gpiocallback)(uint32_t) = 0;      // routine to be called when interrupt occurs
+static uint32_t gpiointpins = 0;                // pins enabled to interrupt
+
+/**
  * @brief Enable interrupts from specified pins
  */
-static void (*gpiocallback)(uint32_t) = 0;
-static uint32_t intpins = 0;
-
-uint32_t
+void
 GPIO_EnableInterrupt(uint32_t pins, void (*callback)(uint32_t) ) {
 GPIOA_Type *gpio;
+
+    // Enable Interrupt from GPIO Port F
+    NVIC_DisableIRQ (GPIOF_IRQn);
 
 #ifdef USE_AHB
     gpio = GPIOF_AHB;
 #else
     gpio = GPIOF;
 #endif
-    gpio->IM = pins;
-    intpins  = pins;
+
+    if( (pins&1)!=0 ) {
+        gpio->LOCK = 0x4C4F434B;                // unlock to set PF0 (ASCII=LOCB)
+        *(uint32_t * )(&(gpio->CR)) = 0x1;      // Conversion is needed because
+                                                // CR is marked read-only
+    }
+
+
+    gpio->IM = 0;                   // Disable interrupts for this port
+
+    gpio->DEN |= pins;              // Set pins to digital I/O
+    gpio->DIR &= ~pins;              // Set pins as input
+    gpio->PUR |= pins;              // Enable Pull up
+
+    gpio->IS  &= ~pins;             // Edge interrupt
+    gpio->IBE |= pins;              // Enable for both edges
+    gpio->IEV |= pins;              // Which kind of event
+
+    gpio->ICR |= pins;              // Clear interrupts
+
+    gpiointpins  = pins;
     gpiocallback = callback;
+
+
+    if( (pins&1)!=0 ) {
+        gpio->LOCK = 0x0;                       // Lock again
+        *(uint32_t * )(&(gpio->CR)) = 0x0;      // Conversion is needed because
+                                                // CR is marked read-only
+    }
+
+
+    // Enable interrupt
+    gpio->IM = pins;
+
+    // Enable Interrupt from GPIO Port F
+    NVIC_EnableIRQ (GPIOF_IRQn);
 }
+//@}
 
 /**
  * @brief Interrupt Routine for GPIO Port F
  */
 //@{
-uint32_t ints = 0;
-
 void GPIOF_IRQHandler(void)  {
 GPIOA_Type *gpio;
 uint32_t m;
@@ -230,13 +301,20 @@ uint32_t m;
     gpio = GPIOF;
 #endif
 
+    // Clear interrupt.
+    // Must be at the very beginning
+    gpio->ICR = gpiointpins;
+
     m = gpio->RIS;
-    gpio->ICR = intpins;
 
     if( gpiocallback ) gpiocallback(m);
 
+
+
 }
 //@}
+
+
 
 /***************************************************************************
  *                                                                         *
@@ -245,13 +323,12 @@ uint32_t m;
  ***************************************************************************/
 
 /**
- * @brief Main routine
+ * @brief Callback routine
  *
- * Initializes GPIO
- * Blink LEDs
+ * @note  Reverses blink sequence
  */
 //@{
-int counter = 0;
+
 int sentido = 0;
 
 void switchmonitor(uint32_t w) {
@@ -259,10 +336,19 @@ void switchmonitor(uint32_t w) {
     sentido = !sentido;
 }
 
+//@}
+
+/**
+ * @brief Main routine
+ *
+ * Initializes GPIO
+ * Blink LEDs
+ */
+//@{
+
 int main(void) {
 int state;
 uint32_t bits;
-int sentido = 0;
 
     SysTick_Config(SystemCoreClock/1000);
 
@@ -304,11 +390,7 @@ int sentido = 0;
                 state = 1;
             break;
         }
-
-        bits = GPIO_ReadPins();
-        if( (bits&SW1) != 0 ) { // No debounce yet
-            sentido = !sentido;
-        }
     }
     return 0;
 }
+//@}

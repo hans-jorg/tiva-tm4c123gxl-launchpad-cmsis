@@ -14,6 +14,6 @@
 void GPIO_Init(uint32_t outputs, uint32_t inputs);
 void GPIO_WritePins(uint32_t zeroes, uint32_t ones);
 uint32_t GPIO_ReadPins(void);
-uint32_t GPIO_EnableInterrupt(uint32_t pins, void (*callback)(uint32_t) );
+void GPIO_EnableInterrupt(uint32_t pins, void (*callback)(uint32_t) );
 
 #endif

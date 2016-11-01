@@ -78,15 +78,26 @@ uint32_t tbegin = tick;
 }
 
 /**
- * @brief xdelay
+ * @brief udelay
  *
- * @note  It gives a very small delay
+ * @note  It gives a precise delay
  * @note  Units are given by the period of SysTick clock
  */
-void xdelay(uint32_t delay) {
+void udelay(uint32_t delay) {
 uint32_t tbegin = SysTick->VAL;
 
     while( ((SysTick->VAL-tbegin)&0xFFFFFF)<delay ) {}
+
+}
+
+/**
+ * @brief xdelay
+ *
+ * @note  It gives a very small delay
+ */
+void xdelay(volatile uint32_t delay) {
+
+    while( delay-- ) {}
 
 }
 
@@ -97,6 +108,20 @@ uint32_t tbegin = SysTick->VAL;
  ***************************************************************************/
 
 /**
+ * @brief Callback routine
+ *
+ * @note  Reverses blink sequence
+ */
+//@{
+
+int sentido = 0;
+
+void switchmonitor(uint32_t w) {
+
+    sentido = !sentido;
+}
+
+/**
  * @brief Main routine
  *
  * Initializes GPIO
@@ -105,12 +130,16 @@ uint32_t tbegin = SysTick->VAL;
 
 int main(void) {
 int state;
-uint32_t bits;
-int sentido = 0;
+
 
     SysTick_Config(SystemCoreClock/1000);
 
     GPIO_Init(LED_ALL,SW_ALL);
+
+    GPIO_EnableInterrupt(SW_ALL,switchmonitor);
+
+    // EnableInterrupt
+    NVIC_EnableIRQ (SysTick_IRQn);
 
     state = 0;
     while(1) {
@@ -142,12 +171,6 @@ int sentido = 0;
             break;
         }
 
-        bits = GPIO_ReadPins();
-        if( (bits&SW1) != 0 ) { // No debounce yet
-            sentido = 1;
-        } else {
-            sentido = 0;
-        }
     }
     return 0;
 }

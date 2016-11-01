@@ -1,11 +1,18 @@
 
-MAKEFLAGS=--no-print-directory
+#
+# Makefile to manage all project at once
+#
+
+#MAKEFLAGS=--no-print-directory
+
 .SILENT:
 
 
 default:
-	echo "Choose clean, zip or all"
+	echo "Choose clean, zip or build"
 	exit 0
+
+all: build
 
 clean:
 	echo "Cleaning..."
@@ -16,6 +23,6 @@ zip:
 	echo "Zipping..."
 	for i in *; do if [ -d "$$i" ]; then echo "Zipping $$i ..." ; zip -r $$i.zip $$i; fi; done
 
-all:
+build:
 	echo "Making all"
-	for i in *; do if [ -d "$$i" ]; then echo "Making $$i ..." ; cd $$i; make $(MAKEFLAGS) build; cd .. ;  fi; done
+	for i in *; do if [ -d "$$i" ]; then echo "Making $$i ..." ; cd $$i; make build ; cd .. ;  fi; done
