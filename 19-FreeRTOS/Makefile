@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 ##
 #  @file     Makefile
 #  @brief    General makefile for TM4C123
@@ -10,7 +6,6 @@
 #
 #  @note     CMSIS library used
 #
-<<<<<<< HEAD
 #  @note  make options
 #
 #  @param build        generate image file in $(OBJDIR)
@@ -21,7 +16,6 @@
 #  @param nm           list symbol table in standard output
 #  @param size         list size of output file
 #  @param term         open a terminal for serial communication to board
-#  @param openocd      start an openocd proxy
 #  @param gdbserver         start debug daemon (Start before debug session)
 #  @param debug             enter a debug session (one of below)
 #  @param  gdb              enter a debug session using gdb
@@ -30,19 +24,6 @@
 #  @param  tui              enter a debug session using gdb in text UI
 #  @param doxygen       generate doc files (alias=docs)
 #  @param help          print options (default)
-=======
-#  @note     options
-#  @param all      generate image file
-#  @param flash    write image file into microcontroller
-#  @param edit     open source files for editing
-#  @param debug    starts a debug section
-#  @param openocd  start opencd for debugging
-#  @param size     show code size
-#  @param nm       list symbols
-#  @param dump     show object code in assembly format
-#
-#
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 
 ###############################################################################
 # Main parameters                                                             #
@@ -83,20 +64,16 @@ CMSISDIR=../../CMSIS
 #
 #default: usage
 default: help
-default: build
+#default: build
 
 #
 # Verbose output for Make (Coment to have verbose output)
 #
 #MAKEFLAGS+= --silent --no-print-directory
-#.SILENT:
+.SILENT:
 
-<<<<<<< HEAD
 #
 # Folder for object files
-=======
-# Include path for FreeRTOS
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 #
 OBJDIR=gcc
 
@@ -340,244 +317,10 @@ FREERTOSSRCFILES+= ${FREERTOSDIR}/Source/portable/GCC/ARM_CM4F/port.c
 FREERTOSOBJFILES2=$(notdir $(FREERTOSSRCFILES:.c=.o))
 FREERTOSOBJFILES=$(addprefix ${OBJDIR}/,${FREERTOSOBJFILES2})
 
-<<<<<<< HEAD
-
-=======
-#
-# Main target
-#
-#default: usage
-default: all
-
-#
-# Verbose output for Make (Coment to have verbose output)
-#
-#MAKEFLAGS+= --silent --no-print-directory
-#.SILENT:
-
-#
-# For gcc-arm-embedded
-#
-
-#--------------------------------------------------------------------------
-#|   ARM core | Command Line Options                       | multilib     |
-#| / ARM arch |                                            |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M0+ | -mthumb -mcpu=cortex-m0plus                | armv6-m      |
-#| Cortex-M0  | -mthumb -mcpu=cortex-m0                    |              |
-#| Cortex-M1  | -mthumb -mcpu=cortex-m1                    |              |
-#|            |--------------------------------------------|              |
-#|            | -mthumb -march=armv6-m                     |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M3  | -mthumb -mcpu=cortex-m3                    | armv7-m      |
-#|            |--------------------------------------------|              |
-#|            | -mthumb -march=armv7-m                     |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M4  | -mthumb -mcpu=cortex-m4                    | armv7e-m     |
-#| (No FP)    |--------------------------------------------|              |
-#|            | -mthumb -march=armv7e-m                    |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M4  | -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp | armv7e-m     |
-#| (Soft FP)  | -mfpu=fpv4-sp-d16                          | /softfp      |
-#|            |--------------------------------------------|              |
-#|            | -mthumb -march=armv7e-m -mfloat-abi=softfp |              |
-#|            | -mfpu=fpv4-sp-d16                          |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M4  | -mthumb -mcpu=cortex-m4 -mfloat-abi=hard   | armv7e-m     |
-#| (Hard FP)  | -mfpu=fpv4-sp-d16                          | /fpu         |
-#|            |--------------------------------------------|              |
-#|            | -mthumb -march=armv7e-m -mfloat-abi=hard   |              |
-#|            | -mfpu=fpv4-sp-d16                          |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M7  | -mthumb -mcpu=cortex-m7                    | armv7e-m     |
-#| (No FP)    |--------------------------------------------|              |
-#|            | -mthumb -march=armv7e-m                    |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M7  | -mthumb -mcpu=cortex-m7 -mfloat-abi=softfp | armv7e-m     |
-#| (Soft FP)  | -mfpu=fpv5-sp-d16                          | /softfp      |
-#|            |--------------------------------------------| /fpv5-sp-d16 |
-#|            | -mthumb -march=armv7e-m -mfloat-abi=softfp |              |
-#|            | -mfpu=fpv5-sp-d16                          |              |
-#|            |--------------------------------------------|--------------|
-#|            | -mthumb -mcpu=cortex-m7 -mfloat-abi=softfp | armv7e-m     |
-#|            | -mfpu=fpv5-d16                             | /softfp      |
-#|            |--------------------------------------------| /fpv5-d16    |
-#|            | -mthumb -march=armv7e-m -mfloat-abi=softfp |              |
-#|            | -mfpu=fpv5-d16                             |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-M7  | -mthumb -mcpu=cortex-m7 -mfloat-abi=hard   | armv7e-m     |
-#| (Hard FP)  | -mfpu=fpv5-sp-d16                          | /fpu         |
-#|            |--------------------------------------------| /fpv5-sp-d16 |
-#|            | -mthumb -march=armv7e-m -mfloat-abi=hard   |              |
-#|            | -mfpu=fpv5-sp-d16                          |              |
-#|            |--------------------------------------------|--------------|
-#|            | -mthumb -mcpu=cortex-m7 -mfloat-abi=hard   | armv7e-m     |
-#|            | -mfpu=fpv5-d16                             | /fpu         |
-#|            |--------------------------------------------| /fpv5-d16    |
-#|            | -mthumb -march=armv7e-m -mfloat-abi=hard   |              |
-#|            | -mfpu=fpv5-d16                             |              |
-#|------------|--------------------------------------------|--------------|
-#| ARMv8-M    | -mthumb -march=armv8-m.base                | armv8-m.base |
-#| Baseline   |                                            |              |
-#|------------|--------------------------------------------|--------------|
-#| ARMv8-M    | -mthumb -march=armv8-m.main                | armv8-m.main |
-#| Mainline   |                                            |              |
-#| (No FP)    |                                            |              |
-#|------------|--------------------------------------------|--------------|
-#| ARMv8-M    | -mthumb -march=armv8-m.main                | armv8-m.main |
-#| Mainline   | -mfloat-abi=softfp -mfpu=fpv5-sp-d16       | /softfp      |
-#| (Soft FP)  |                                            | /fpv5-sp-d16 |
-#|            |--------------------------------------------|--------------|
-#|            | -mthumb -march=armv8-m.main                | armv8-m.main |
-#|            | -mfloat-abi=softfp -mfpu=fpv5-d16          | /softfp      |
-#|            |                                            | /fpv5-d16    |
-#|------------|--------------------------------------------|--------------|
-#| ARMv8-M    | -mthumb -march=armv8-m.main                | armv8-m.main |
-#| Mainline   | -mfloat-abi=hard -mfpu=fpv5-sp-d16         | /fpu         |
-#| (Hard FP)  |                                            | /fpv5-sp-d16 |
-#|            |--------------------------------------------|--------------|
-#|            | -mthumb -march=armv8-m.main                | armv8-m.main |
-#|            | -mfloat-abi=hard -mfpu=fpv5-d16            | /fpu         |
-#|            |                                            | /fpv5-d16    |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-R4  | [-mthumb] -march=armv7-r                   | armv7-ar     |
-#| Cortex-R5  |                                            | /thumb       |
-#| Cortex-R7  |                                            |              |
-#| Cortex-R8  |						  |		 |
-#| (No FP)    |                                            |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-R4  | [-mthumb] -march=armv7-r -mfloat-abi=softfp| armv7-ar     |
-#| Cortex-R5  | -mfpu=vfpv3-d16                            | /thumb       |
-#| Cortex-R7  |                                            | /softfp      |
-#| Cortex-R8  |                                            |              |
-#| (Soft FP)  |                                            |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-R4  | [-mthumb] -march=armv7-r -mfloat-abi=hard  | armv7-ar     |
-#| Cortex-R5  | -mfpu=vfpv3-d16                            | /thumb       |
-#| Cortex-R7  |                                            | /fpu         |
-#| Cortex-R8  |                                            |              |
-#| (Hard FP)  |                                            |              |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-A*  | [-mthumb] -march=armv7-a                   | armv7-ar     |
-#| (No FP)    |                                            | /thumb       |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-A*  | [-mthumb] -march=armv7-a -mfloat-abi=softfp| armv7-ar     |
-#| (Soft FP)  | -mfpu=vfpv3-d16                            | /thumb       |
-#|            |                                            | /softfp      |
-#|------------|--------------------------------------------|--------------|
-#| Cortex-A*  | [-mthumb] -march=armv7-a -mfloat-abi=hard  | armv7-ar     |
-#| (Hard FP)  | -mfpu=vfpv3-d16                            | /thumb       |
-#|            |                                            | /fpu         |
-#--------------------------------------------------------------------------
-
-#
-# Folder for object files
-#
-OBJDIR=gcc
-
-#
-# Object files
-#
-OBJFILES=$(addprefix ${OBJDIR}/,$(SRCFILES:.c=.o))
-OBJFILES+= ${FREERTOSOBJFILES}
-
-#
-# Set the compiler CPU/FPU options.
-#
-CPUFLAGS=-mcpu=cortex-m4
-
-#
-# FPU Options
-# ATTENTION!!! Do no mix them. All object files must be compiled with same FPU flags
-#
-# float-abi options
-#        soft:   Full software floating point using integer registers for function parameters
-#        hard:   Full hardware floating point
-#        softfp: Use hardware floating point with the same abi of software floating point
-#
-# fpu options
-#        fpv?:   ARM FPU (version 1 and 2 deprecated)
-#        neon:   ARM Vector FPU
-#        crypto: Crypto Unit
-#        d16:    Register bank as 16 double precision registers
-#        sp:     Single precision
-#
-#
-# ENABLE_FPU is used in start code to initialize FPU
-#
-#
-# To use no FPU, do not define FPUFLAGS
-# Use hardware FPU
-     FPUFLAGS=-mfpu=fpv4-sp-d16 -mfloat-abi=hard -DENABLE_FPU
-# Use software for Floating Point
-     #FPUFLAGS=-mfpu=fpv4-sp-d16 -mfloat-abi=soft
-# Use hardware (when available?) but with an interface similar to the used by software
-     #FPUFLAGS=-mfpu=fpv4-sp-d16 -mfloat-abi=softfp  -DENABLE_FPU
-
-#
-# Include path
-#
-CMSISDEVINCDIR=$(CMSISDIR)/Device/TI/TM4C/Include
-CMSISINCDIR=${CMSISDIR}/Include
-INCLUDEPATH= $(FREERTOSINCDIR) ${FREERTOSPORTINCDIR} ${CMSISDEVINCDIR} ${CMSISINCDIR} 
-
-
-#
-# Specs script (modification of compiler and linker flags)
-#
-# This parameter is only recognized by gcc.
-# Linking must be done by a gcc call instead of ld
-#
-#SPECFLAGS= --specs=nano.specs
-
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
-
 ###############################################################################
 # Generally it is not needed to modify the lines bellow                       #
 ###############################################################################
 
-<<<<<<< HEAD
-=======
-
-#
-#
-# The flags passed to the assembler.
-#
-AFLAGS=-mthumb \
-       ${CPUFLAGS}  \
-       ${FPUFLAGS}  \
-       $(admdprefix -I ,${INCLUDEPATH})           \
-
-#
-# The flags passed to the compiler.
-#
-CFLAGS=-mthumb             \
-       ${CPUFLAGS}              \
-       ${FPUFLAGS}              \
-       $(addprefix -I ,${INCLUDEPATH})           \
-       -D${PARTCLASS}            \
-       -ffunction-sections \
-       -fdata-sections     \
-       -std=c11            \
-       -pedantic           \
-       -DPART_${PART} \
-
-
-#
-# The flags passed to the linker.
-#
-# For now only one parameter when using gcc to link
-#
-LDFLAGS=--gc-sections
-
-
-###############################################################################
-# Generally it is not needed to modify the lines bellow                       #
-###############################################################################
-
-
-
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 ###############################################################################
 #   Commands                                                                  #
 ###############################################################################
@@ -594,24 +337,6 @@ CC=${PREFIX}-gcc
 AR=${PREFIX}-ar
 
 #
-<<<<<<< HEAD
-=======
-# The command for calling the linker
-# Using gcc instead of ld to use --specs parameters
-# To try:
-#     -ffunction-sections
-#     -fdata-sections
-#     -fno-builtin
-#     -nostdlib
-#     -nodefaultlibs
-#  ???
-#
-LD=${PREFIX}-gcc $(CFLAGS) -nostartfiles -Wl,-Map,$(OBJDIR)/$(PROGNAME).map -Wl,$(LDFLAGS)
-#LD=${PREFIX}-ld -Map $(OBJDIR)/$(PROGNAME).map $(LDFLAGS)
-
-
-#
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 # The command for extracting images from the linked executables.
 #
 OBJCOPY=${PREFIX}-objcopy
@@ -622,15 +347,12 @@ OBJCOPY=${PREFIX}-objcopy
 OBJDUMP=${PREFIX}-objdump
 
 #
-<<<<<<< HEAD
-=======
 # Flags for disassembler
 #
 ODDISFLAGS= -x -S -D
 ODDUMPFLAGS= -x -s
 
 #
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 # The command for listing size of code
 #
 OBJSIZE=${PREFIX}-size
@@ -648,15 +370,9 @@ GDB=$(PREFIX)-gdb
 #
 # GDB servers
 #
-<<<<<<< HEAD
 OPENOCD=openocd
 LMICDI=lmicdi
 
-
-=======
-GUIEDITOR=gedit
-#GUIEDITOR=geany
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 
 ###############################################################################
 #   Command parameters                                                        #
@@ -670,7 +386,6 @@ GDBFLAGS=-x $(GDBINIT) -n
 #
 # GDB initialization file
 #
-<<<<<<< HEAD
 GDBINIT=$(OBJDIR)/gdbinit
 
 #
@@ -678,33 +393,11 @@ GDBINIT=$(OBJDIR)/gdbinit
 #
 ODDISFLAGS= -x -S -D
 ODDUMPFLAGS= -x -s
-=======
-# Use one of configuration below
-# cu
-    #TTYPROG=cu
-    #TTYPARMS=-l $(TTYTERM) -s $(TTYBAUD)
-# screen
-    #TTYPROG=screen
-    #TTYPARMS= $(TTYTERM) $(TTYBAUD)
-# minicom
-    TTYPROG=minicom
-    TTYPARMS=-D $(TTYTERM) -b $(TTYBAUD)
-# putty
-    #TTYPROG=putty
-# tip
-    #TTYPROG=tip
-    #TTYPARMS=-$(TTYBAUD) $(TTYTERM)
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 
 #
 # Parameters for OpenOCD
 #
-<<<<<<< HEAD
 OPENOCDBOARD=$(OPENOCDDIR)/share/openocd/scripts/board/ek-tm4c123gxl.cfg
-=======
-OPENOCD=openocd
-OPENOCDBOARD=/usr/share/openocd/scripts/board/ek-tm4c123gxl.cfg
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 OPENOCDFLASHSCRIPT=$(OBJDIR)/flash.ocd
 
 ###############################################################################
@@ -898,8 +591,9 @@ ${OBJDIR}/port.o:${FREERTOSDIR}/Source/portable/GCC/ARM_CM4F/port.c
 	@echo "  Compiling           $(notdir ${<})";
 	${CC} -c ${CFLAGS} -D${OBJDIR} ${DEPFLAGS} -o ${@} ${<}
 
-<<<<<<< HEAD
-=======
+#
+# General rules
+#
 
 #
 # The rule for building the object file from each C source file.
@@ -940,13 +634,11 @@ ${OBJDIR}/%.bin: ${OBJDIR}/%.axf
 	${OBJCOPY} -O binary ${^} ${@}
 
 
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 ###############################################################################
 #   Targets                                                                   #
 ###############################################################################
 
 #
-<<<<<<< HEAD
 # Help menu: Default target
 #
 help: usage
@@ -956,21 +648,10 @@ usage:
 	@echo "make flash        write to flash using $(FLASHER)"
 	@echo "make clean        delete all generated files"
 	@echo "make disassembly  disassemble with output file into $(OBJDIR)/$(PROGNAME).S"
-=======
-#
-#
-usage:
-	@echo "Usage:"
-	@echo "make all          generate image file in $(OBJDIR)"
-	@echo "make flash        write to flash using $(FLASHER)"
-	@echo "make clean        delete all generated files"
-	@echo "make dis          disassemble output file into $(OBJDIR)/$(PROGNAME).S"
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 	@echo "make dump         generate a hexadecimal dump file into $(OBJDIR)/$(PROGNAME).dump"
 	@echo "make nm           list symbol table in standard output"
 	@echo "make size         list size of output file"
 	@echo "make term         open a terminal for serial communication to board"
-<<<<<<< HEAD
 	@echo "make gdbserver    start debug daemon (Start before debug session)"
 	@echo "make debug        enter a debug session (one of below)"
 	@echo "make  gdb         enter a debug session using gdb"
@@ -979,9 +660,6 @@ usage:
 	@echo "make  tui         enter a debug session using gdb in text UI"
 	@echo "doxygen           generate doc files (alias=docs)"
 	@echo "help              print options (default)"
-=======
-	@echo "make openocd      start an openocd proxy"
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 
 #
 # The default rule, which causes the $(PROGNAME) example to be built.
@@ -1055,7 +733,6 @@ edit:
 #
 # Debug command
 #
-<<<<<<< HEAD
 debug: gdb
 gdb: $(OBJDIR)/$(PROGNAME).axf $(GDBINIT) openocd
 	$(GDB) $(GDBFLAGS) $(OBJDIR)/$(PROGNAME).axf
@@ -1113,22 +790,9 @@ lmicdi:
 	else \
 	    echo "Could not open $(OPENOCD)"; fi
 
-#
-# Create gdbinit (debugger initialization scripts)
-=======
-debug: $(OBJDIR)/$(PROGNAME).bin $(GDBINIT) openocd
-	$(GDB) $(GDBFLAGS) $(OBJDIR)/$(PROGNAME).axf
 
 #
-# Start OpenOCD proxy
-#
-openocd:
-	if [ -c $(TTYTERM) ] ; then echo "Starting OpenOCD"; \
-	$(TERMAPP) -e "sh -c \" $(OPENOCD) -f $(OPENOCDBOARD) \" " ; \
-	else echo "Could not open $(OPENOCD)"; fi
-#
 # Create gdbinit
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 #
 $(GDBINIT):
 	echo "# Run this script using gdb source command" > $(GDBINIT)
@@ -1164,7 +828,6 @@ term:
 docs: doxygen
 doxygen:
 	$(DOXYGEN) *.c *.h
-<<<<<<< HEAD
 
 #
 # These labels are not files !!!
@@ -1172,9 +835,6 @@ doxygen:
 
 .PHONY: default all clean flash burn deploy disassembly dump size nm edit debug terminal
 .PHONY: term doxygen docs
-=======
-.PHONY: default all clean flash burn deploy disassembly dump size nm edit debug terminal term doxygen docs
->>>>>>> cd2701a47730339e3fe9b85d2050bf237cea270d
 
 #
 # Dependencies
