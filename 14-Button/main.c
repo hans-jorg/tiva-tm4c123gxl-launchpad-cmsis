@@ -170,7 +170,6 @@ int state;
                 state = 1;
             break;
         }
-
     }
     return 0;
 }
