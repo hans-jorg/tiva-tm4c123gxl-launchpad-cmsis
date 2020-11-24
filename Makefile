@@ -7,8 +7,9 @@
 
 .SILENT:
 
+default: build
 
-default:
+help:
 	echo "Choose clean, zip or build"
 	exit 0
 

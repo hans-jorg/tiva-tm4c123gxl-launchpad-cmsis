@@ -64,7 +64,7 @@ CMSISDIR=../../CMSIS
 # Main target
 #
 #default: usage
-default: help
+default: build
 
 #
 # Verbose output for Make (Coment to have verbose output)
@@ -458,7 +458,7 @@ endif
 #
 # Additional Flags
 #
-CFLAGS+= -Wuninitialized -Werror
+CFLAGS+= -Wuninitialized -Wall -Wattributes
 
 #
 # Controlling dependencies on header files

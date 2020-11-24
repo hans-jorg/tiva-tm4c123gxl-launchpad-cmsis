@@ -80,7 +80,7 @@ GPIOA_Type *gpio;
 
     clockfreq = SystemCoreClockGet();
 
-    int rc = SystemCoreClockSet(CLOCK_SRC_PLL_PIOSC,5);
+    SystemCoreClockSet(CLOCK_SRC_PLL_PIOSC,5);
 
     clockfreq = SystemCoreClockGet();
 

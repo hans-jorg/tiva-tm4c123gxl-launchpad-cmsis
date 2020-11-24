@@ -340,7 +340,7 @@ void _stop(void) {
 /*
  * Ponto de entrada principal
  */
-void __attribute__((weak,naked,alias("Default_Handler"))) Reset_Handler(void) {
+void __attribute__((weak,naked)) Reset_Handler(void) {
 unsigned long *pSource;
 unsigned long *pDest;
 

@@ -64,7 +64,7 @@ CMSISDIR=../../CMSIS
 # Main target
 #
 #default: usage
-default: help
+default: build
 #default: build
 
 #
@@ -291,7 +291,7 @@ GUIEDITOR=gedit
 
 # Protothreads Directory
 #
-PTDIR=../../../../pt-1.4
+PTDIR=../../../pt-1.4
 
 ###############################################################################
 # Generally it is not needed to modify the lines bellow                       #

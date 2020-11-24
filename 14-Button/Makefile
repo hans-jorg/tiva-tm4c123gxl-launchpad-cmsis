@@ -64,7 +64,7 @@ CMSISDIR=../../CMSIS
 # Main target
 #
 #default: usage
-default: help
+default: build
 
 #
 # Verbose output for Make (Coment to have verbose output)

@@ -143,7 +143,6 @@ int SystemCoreClockSet(uint8_t source, uint32_t div) {
 uint32_t rcc,rcc2;
 int32_t  xtal;
 int delaycount;
-uint32_t clockfreq;
 
     // Enable required peripherals
     switch(source) {

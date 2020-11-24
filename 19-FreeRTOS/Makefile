@@ -63,7 +63,7 @@ CMSISDIR=../../CMSIS
 # Main target
 #
 #default: usage
-default: help
+default: build
 #default: build
 
 #
@@ -287,7 +287,7 @@ GUIEDITOR=gedit
 #
 # Location of additional libraries
 #
-FREERTOSDIR=../../../../FreeRTOSV8.2.3/FreeRTOS
+FREERTOSDIR=../../../FreeRTOSv10/FreeRTOS
 
 # Include path for FreeRTOS
 FREERTOSCONFIGDIR=.
